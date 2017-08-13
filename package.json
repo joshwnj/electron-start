@@ -1,0 +1,17 @@
+{
+  "name": "electron-start",
+  "version": "1.0.0",
+  "description": "Start a js app",
+  "bin": {
+    "electron-start": "bin/start.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "joshwnj",
+  "license": "MIT",
+  "dependencies": {
+    "electron": "1.7.5"
+  }
+}
