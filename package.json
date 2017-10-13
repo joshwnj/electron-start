@@ -12,6 +12,7 @@
   "author": "joshwnj",
   "license": "MIT",
   "dependencies": {
-    "electron": "1.7.5"
+    "electron": "1.7.5",
+    "minimist": "^1.2.0"
   }
 }
