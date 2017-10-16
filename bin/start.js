@@ -8,7 +8,8 @@ const dir = process.cwd()
 const path = require('path')
 const { app, BrowserWindow } = require('electron')
 
-const entryPath = path.resolve(path.join(process.cwd(), process.argv[2]))
+const entryFilename = getEntryFilename(process.argv[2])
+const entryPath = path.resolve(path.join(process.cwd(), entryFilename))
 const config = Object.assign(
   {
     width: 600,
@@ -28,4 +29,8 @@ app.on('ready', () => {
   win.loadURL(`file:///${entryPath}`)
 })
 
-
+function getEntryFilename (f) {
+  return (!f || f === '.')
+   ? 'index.html'
+    : f
+}
