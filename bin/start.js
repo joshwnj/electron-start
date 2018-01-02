@@ -5,11 +5,11 @@ const minimist = require('minimist')
 const argv = minimist(process.argv.slice(2))
 const dir = process.cwd()
 
+const fs = require('fs')
 const path = require('path')
 const { app, BrowserWindow } = require('electron')
+const entryPath = getEntryPath(process.cwd(), process.argv[2])
 
-const entryFilename = getEntryFilename(process.argv[2])
-const entryPath = path.resolve(path.join(process.cwd(), entryFilename))
 const config = Object.assign(
   {
     width: 600,
@@ -29,8 +29,10 @@ app.on('ready', () => {
   win.loadURL(`file:///${entryPath}`)
 })
 
-function getEntryFilename (f) {
-  return (!f || f === '.')
-   ? 'index.html'
-    : f
+function getEntryPath (dir, f) {
+  const entryPath = path.resolve(path.join(dir, f))
+
+  return fs.lstatSync(entryPath).isDirectory()
+    ? path.join(entryPath, 'index.html')
+    : entryPath
 }
