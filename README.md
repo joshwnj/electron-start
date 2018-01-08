@@ -19,11 +19,17 @@ module.exports = {
 
 And run `electron-start -c config.js index.html`
 
-Run with `--dev` to automatically open devtools.
+### Devtools
 
-## Hey
+Set the `--dev` flag to automatically open devtools. Eg:
 
-If your `html` file has a `<script>` tag that loads a javascript module, you can do all the fancy stuff like `require(...)` without needing webpack / browserify!
+`electron-start index.html --dev`
+
+### React Devtools
+
+Set the `--react` flag to enable the React devtools extension. Eg:
+
+`electron-start index.html --dev --react`
 
 ## License
 

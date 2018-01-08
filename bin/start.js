@@ -10,11 +10,15 @@ const path = require('path')
 const { app, BrowserWindow } = require('electron')
 const entryPath = getEntryPath(process.cwd(), process.argv[2])
 
+const { default: installExtension, REACT_DEVELOPER_TOOLS } = require('electron-devtools-installer')
+
+
 const config = Object.assign(
   {
     width: 600,
     height: 400,
-    showDevTools: argv.dev
+    showDevTools: argv.dev,
+    reactDevTools: argv.react
   },
   argv.c
     ? require(path.resolve(argv.c))
@@ -29,10 +33,27 @@ app.on('ready', () => {
 
   win.loadURL(`file:///${entryPath}`)
 
-  if (config.showDevTools) {
-    win.webContents.openDevTools({ mode: 'detach' });
-  }
+  setupDevTools(config, (err) => {
+    if (err) {
+      console.error('setupDevTools failed:', err)
+      return
+    }
+
+    if (config.showDevTools) {
+      win.webContents.openDevTools({ mode: 'detach' })
+    }
+  })
 })
+
+function setupDevTools (config, cb) {
+  if (config.reactDevTools) {
+    installExtension(REACT_DEVELOPER_TOOLS)
+      .then(() => cb())
+      .catch(cb)
+  } else {
+    cb()
+  }
+}
 
 function getEntryPath (dir, f) {
   const entryPath = path.resolve(path.join(dir, f))
