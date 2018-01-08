@@ -19,6 +19,8 @@ module.exports = {
 
 And run `electron-start -c config.js index.html`
 
+Run with `--dev` to automatically open devtools.
+
 ## Hey
 
 If your `html` file has a `<script>` tag that loads a javascript module, you can do all the fancy stuff like `require(...)` without needing webpack / browserify!

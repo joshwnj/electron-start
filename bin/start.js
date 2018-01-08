@@ -13,7 +13,8 @@ const entryPath = getEntryPath(process.cwd(), process.argv[2])
 const config = Object.assign(
   {
     width: 600,
-    height: 400
+    height: 400,
+    showDevTools: argv.dev
   },
   argv.c
     ? require(path.resolve(argv.c))
@@ -27,6 +28,10 @@ app.on('ready', () => {
   })
 
   win.loadURL(`file:///${entryPath}`)
+
+  if (config.showDevTools) {
+    win.webContents.openDevTools({ mode: 'detach' });
+  }
 })
 
 function getEntryPath (dir, f) {
