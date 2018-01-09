@@ -8,7 +8,8 @@ const dir = process.cwd()
 const fs = require('fs')
 const path = require('path')
 const { app, BrowserWindow } = require('electron')
-const entryPath = getEntryPath(process.cwd(), process.argv[2])
+
+const entryPath = getEntryPath(process.cwd(), argv._[0])
 
 const config = Object.assign(
   {
@@ -54,10 +55,18 @@ function setupDevTools (config, cb) {
   }
 }
 
-function getEntryPath (dir, f) {
-  const entryPath = path.resolve(path.join(dir, f))
+function resolveEntryPath (dir, f) {
+  const entryPath = path.resolve(path.join(dir, f || '.'))
 
   return fs.lstatSync(entryPath).isDirectory()
     ? path.join(entryPath, 'index.html')
     : entryPath
+}
+
+function getEntryPath (dir, f) {
+  const entryPath = resolveEntryPath(dir, f)
+
+  return fs.existsSync(entryPath)
+    ? entryPath
+    : path.join(__dirname, '404.html')
 }
