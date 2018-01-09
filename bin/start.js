@@ -10,9 +10,6 @@ const path = require('path')
 const { app, BrowserWindow } = require('electron')
 const entryPath = getEntryPath(process.cwd(), process.argv[2])
 
-const { default: installExtension, REACT_DEVELOPER_TOOLS } = require('electron-devtools-installer')
-
-
 const config = Object.assign(
   {
     width: 600,
@@ -47,6 +44,8 @@ app.on('ready', () => {
 
 function setupDevTools (config, cb) {
   if (config.reactDevTools) {
+    const { default: installExtension, REACT_DEVELOPER_TOOLS } = require('electron-devtools-installer')
+
     installExtension(REACT_DEVELOPER_TOOLS)
       .then(() => cb())
       .catch(cb)
