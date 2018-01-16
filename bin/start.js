@@ -1,7 +1,6 @@
 #!/usr/bin/env electron
 
 const minimist = require('minimist')
-const pathIsAbsolute = require('path-is-absolute')
 
 const argv = minimist(process.argv.slice(2))
 const dir = process.cwd()
@@ -57,7 +56,7 @@ function setupDevTools (config, cb) {
 }
 
 function resolveEntryPath (dir, f) {
-  const entryPath = pathIsAbsolute(f) ? f : path.resolve(path.join(dir, f || '.'))
+  const entryPath = path.isAbsolute(f) ? f : path.resolve(path.join(dir, f || '.'))
 
   return fs.lstatSync(entryPath).isDirectory()
     ? path.join(entryPath, 'index.html')
