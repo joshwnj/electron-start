@@ -56,7 +56,7 @@ function setupDevTools (config, cb) {
 }
 
 function resolveEntryPath (dir, f) {
-  const entryPath = path.isAbsolute(f) ? f : path.resolve(path.join(dir, f || '.'))
+  const entryPath = f && path.isAbsolute(f) ? f : path.resolve(path.join(dir, f || '.'))
 
   return fs.lstatSync(entryPath).isDirectory()
     ? path.join(entryPath, 'index.html')
