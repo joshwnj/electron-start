@@ -24,10 +24,13 @@ const config = Object.assign(
 )
 
 app.on('ready', () => {
-  const win = new BrowserWindow({
-    width: config.width,
-    height: config.height
-  })
+  const win = new BrowserWindow(pluckObj(config, [
+    'width',
+    'height',
+    'titleBarStyle',
+    'title',
+    'icon'
+  ]))
 
   win.loadURL(`file:///${entryPath}`)
 
@@ -69,4 +72,15 @@ function getEntryPath (dir, f) {
   return fs.existsSync(entryPath)
     ? entryPath
     : path.join(__dirname, '404.html')
+}
+
+function pluckObj (obj, keys) {
+  const objKeys = Object.keys(obj)
+  const output = {}
+  keys.forEach(k => {
+    if (objKeys.indexOf(k) >= 0) {
+      output[k] = obj[k]
+    }
+  })
+  return output
 }
