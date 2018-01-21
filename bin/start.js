@@ -4,19 +4,24 @@ const minimist = require('minimist')
 
 const argv = minimist(process.argv.slice(2))
 const dir = process.cwd()
+const file = argv._[0]
 
 const fs = require('fs')
 const path = require('path')
 const { app, BrowserWindow } = require('electron')
 
-const entryPath = getEntryPath(process.cwd(), argv._[0])
+const entryPath = resolveEntryPath(dir, file)
+const entryExists = fs.existsSync(entryPath)
+const fallback = path.join(__dirname, '404.html')
 
 const config = Object.assign(
   {
     width: 600,
     height: 400,
     showDevTools: argv.dev,
-    reactDevTools: argv.react
+    reactDevTools: argv.react,
+    watch: true,
+    alwaysOnTop: false
   },
   argv.c
     ? require(path.resolve(argv.c))
@@ -29,10 +34,37 @@ app.on('ready', () => {
     'height',
     'titleBarStyle',
     'title',
-    'icon'
+    'icon',
+    'alwaysOnTop'
   ]))
 
-  win.loadURL(`file:///${entryPath}`)
+  if (config.watch) {
+    const chokidar = require('chokidar')
+    const watchPattern = path.dirname(entryPath) + '/**'
+    console.log('watching', watchPattern)
+
+    chokidar.watch(watchPattern).on('all', (event, filename) => {
+      if (filename !== entryPath) { return }
+
+      switch (event) {
+      case 'change':
+        win.webContents.executeJavaScript(
+          `location.reload()`
+        )
+        break
+
+      case 'add':
+        if (!entryExists) {
+          win.webContents.executeJavaScript(
+            `location.href = '${entryPath}'`
+          )
+        }
+        break
+      }
+    })
+  }
+
+  win.loadURL(`file:///${entryExists ? entryPath : fallback}`)
 
   setupDevTools(config, (err) => {
     if (err) {
@@ -60,18 +92,11 @@ function setupDevTools (config, cb) {
 
 function resolveEntryPath (dir, f) {
   const entryPath = f && path.isAbsolute(f) ? f : path.resolve(path.join(dir, f || '.'))
+  const isDir = path.extname(entryPath) === ''
 
-  return fs.lstatSync(entryPath).isDirectory()
+  return isDir
     ? path.join(entryPath, 'index.html')
     : entryPath
-}
-
-function getEntryPath (dir, f) {
-  const entryPath = resolveEntryPath(dir, f)
-
-  return fs.existsSync(entryPath)
-    ? entryPath
-    : path.join(__dirname, '404.html')
 }
 
 function pluckObj (obj, keys) {

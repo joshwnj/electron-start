@@ -12,6 +12,7 @@
   "author": "joshwnj",
   "license": "MIT",
   "dependencies": {
+    "chokidar": "^2.0.0",
     "electron": "1.7.5",
     "electron-devtools-installer": "^2.2.3",
     "minimist": "^1.2.0"
