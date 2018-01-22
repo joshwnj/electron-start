@@ -16,5 +16,18 @@
     "electron": "1.7.5",
     "electron-devtools-installer": "^2.2.3",
     "minimist": "^1.2.0"
-  }
+  },
+  "main": "index.js",
+  "directories": {
+    "example": "example"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/joshwnj/electron-start.git"
+  },
+  "bugs": {
+    "url": "https://github.com/joshwnj/electron-start/issues"
+  },
+  "homepage": "https://github.com/joshwnj/electron-start#readme"
 }
