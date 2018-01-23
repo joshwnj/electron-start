@@ -1,6 +1,6 @@
 {
   "name": "electron-start",
-  "version": "1.7.0",
+  "version": "1.8.0",
   "description": "Start a js app",
   "bin": {
     "electron-start": "bin/start.js"
