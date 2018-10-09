@@ -12,9 +12,9 @@
   "author": "joshwnj",
   "license": "MIT",
   "dependencies": {
-    "chokidar": "^2.0.0",
-    "electron": "1.8.2-beta.4",
-    "electron-devtools-installer": "^2.2.3",
+    "chokidar": "^2.0.4",
+    "electron": "^3.0.3",
+    "electron-devtools-installer": "^2.2.4",
     "minimist": "^1.2.0"
   },
   "main": "index.js",
