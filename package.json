@@ -13,7 +13,7 @@
   "license": "MIT",
   "dependencies": {
     "chokidar": "^2.0.4",
-    "electron": "^3.0.3",
+    "electron": "^3.0.10",
     "electron-devtools-installer": "^2.2.4",
     "minimist": "^1.2.0"
   },
